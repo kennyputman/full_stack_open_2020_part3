@@ -39,6 +39,15 @@ app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
 
+app.get("/api/info", (request, response) => {
+  const length = persons.length;
+  const time = new Date();
+
+  response.send(
+    `<div>Phonebook has info for ${length} people<br><br>${time}</div>`
+  );
+});
+
 const generateID = () => {
   const maxID = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
   return maxID + 1;
