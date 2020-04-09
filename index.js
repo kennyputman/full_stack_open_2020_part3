@@ -35,10 +35,6 @@ app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
 
-app.get("/api/persons", (request, response) => {
-  response.json(persons);
-});
-
 app.get("/api/info", (request, response) => {
   const length = persons.length;
   const time = new Date();
@@ -46,6 +42,20 @@ app.get("/api/info", (request, response) => {
   response.send(
     `<div>Phonebook has info for ${length} people<br><br>${time}</div>`
   );
+});
+
+app.get("/api/persons", (request, response) => {
+  response.json(persons);
+});
+
+app.get("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  const person = persons.find((person) => person.id === id);
+  if (person) {
+    response.json(person);
+  } else {
+    response.status(404).end();
+  }
 });
 
 const generateID = () => {
