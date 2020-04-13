@@ -35,7 +35,7 @@ app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
 
-app.get("/api/info", (request, response) => {
+app.get("/info", (request, response) => {
   const length = persons.length;
   const time = new Date();
 
@@ -82,6 +82,13 @@ app.post("/api/persons", (request, response) => {
   persons = persons.concat(person);
 
   response.json(person);
+});
+
+app.delete("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter((note) => note.id !== id);
+
+  response.status(204).end();
 });
 
 const PORT = 3001;
