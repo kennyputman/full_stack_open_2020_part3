@@ -59,8 +59,8 @@ app.get("/api/persons/:id", (request, response) => {
 });
 
 const generateID = () => {
-  const maxID = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
-  return maxID + 1;
+  const randomID = Math.floor(Math.random() * 1000000);
+  return randomID;
 };
 
 app.post("/api/persons", (request, response) => {
