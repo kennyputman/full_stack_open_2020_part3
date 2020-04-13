@@ -65,7 +65,12 @@ const generateID = () => {
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
+  const names = persons.map((person) => person.name);
+  const doesDuplicateExist = names.some((name) => name == body.name);
 
+  if (doesDuplicateExist) {
+    return response.status(400).json({ error: "name must be unique" });
+  }
   if (!body.name || !body.number) {
     return response
       .status(400)
