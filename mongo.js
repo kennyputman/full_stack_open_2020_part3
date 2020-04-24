@@ -11,17 +11,17 @@ const password = process.argv[2];
 const personName = process.argv[3];
 const personNumber = process.argv[4];
 
-const url = `mongodb+srv://kenny:${password}@cluster0-led48.mongodb.net/test?retryWrites=true&w=majority`;
+const url = process.env.MONGODB_URI;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const noteSchema = new mongoose.Schema({
+const personSchema = new mongoose.Schema({
   name: String,
   number: String,
   date: Date,
 });
 
-const Person = mongoose.model("Person", noteSchema);
+const Person = mongoose.model("Person", personSchema);
 
 if (process.argv.length === 5) {
   const person = new Person({
