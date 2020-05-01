@@ -24,12 +24,11 @@ app.get("/", (request, response) => {
 });
 
 app.get("/info", (request, response) => {
-  const length = Person.countDocuments({});
-  const time = new Date();
-
-  response.send(
-    `<div>Phonebook has info for ${length} people<br><br>${time}</div>`
-  );
+  Person.countDocuments({}).then((personsCount) => {
+    response.send(
+      `<div>Phonebook has info for ${personsCount} people<br><br>${new Date()}</div>`
+    );
+  });
 });
 
 app.get("/api/persons", (request, response) => {
