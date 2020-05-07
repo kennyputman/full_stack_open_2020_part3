@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 if (process.argv.length < 3 || process.argv.length > 5) {
   console.log(
@@ -16,10 +17,23 @@ const url = process.env.MONGODB_URI;
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
-  date: Date,
+  name: {
+    type: String,
+    minlength: 3,
+    unique: true,
+    required: true,
+  },
+  number: {
+    type: String,
+    minlength: 8,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
 });
+personSchema.plugin(uniqueValidator);
 
 const Person = mongoose.model("Person", personSchema);
 
