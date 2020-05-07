@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
 
-if (process.argv.length < 3 || process.argv.length > 5) {
+if (process.argv.length < 3) {
   console.log(
     "Pass arguments in as: [password] ['first_name last_name'] [number]"
   );
@@ -14,43 +13,26 @@ const personNumber = process.argv[4];
 
 const url = process.env.MONGODB_URI;
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(url, { useNewUrlParser: true });
 
-const personSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    minlength: 3,
-    unique: true,
-    required: true,
-  },
-  number: {
-    type: String,
-    minlength: 8,
-    required: true,
-  },
-  date: {
-    type: Date,
-    required: true,
-  },
+const Person = mongoose.model("Person", {
+  name: String,
+  number: String,
+  date: Date,
 });
-personSchema.plugin(uniqueValidator);
 
-const Person = mongoose.model("Person", personSchema);
+const person = new Person({
+  name: personName,
+  number: personNumber,
+  date: new Date(),
+});
 
-if (process.argv.length === 5) {
-  const person = new Person({
-    name: personName,
-    number: personNumber,
-    date: new Date(),
-  });
-
+if (false) {
   person.save().then((response) => {
     console.log("person saved!");
     mongoose.connection.close();
   });
-}
-
-if (process.argv.length === 3) {
+} else {
   Person.find({}).then((result) => {
     console.log("Phonebook:");
     console.log("---------------");
